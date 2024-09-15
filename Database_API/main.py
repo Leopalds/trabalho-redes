@@ -93,3 +93,25 @@ async def get_role(voter_id, password):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Database error"
         )
+
+
+@app.get("/signup")
+async def signup(request: Request, voter_id: str, password: str):
+    role = 'user'
+    # creating data on db
+    try:
+        cursor.execute("INSERT INTO voters (voter_id, password, role) VALUES (%s, %s, %s)", (voter_id, password, role))
+        cnx.commit()
+    except mysql.connector.Error as err:
+        print(err)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Error when signing up user"
+        )
+    
+    await authenticate(request)
+    
+    # Assuming authentication is successful, generate a token
+    token = jwt.encode({'password': password, 'voter_id': voter_id, 'role': role}, os.environ['SECRET_KEY'], algorithm='HS256')
+
+    return {'token': token, 'role': role}

@@ -31,6 +31,18 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'src/html/login.html'));
 });
 
+app.get('/sign-up', (req, res) => {
+  res.sendFile(path.join(__dirname, 'src/html/signup.html'));
+});
+
+app.get('/js/sign-up.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'src/js/sign-up.js'))
+});
+
+app.get('/js/js-brasil.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'src/js/js-brasil.js'))
+});
+
 app.get('/js/login.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'src/js/login.js'))
 });
