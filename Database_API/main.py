@@ -115,3 +115,25 @@ async def signup(request: Request, voter_id: str, password: str):
     token = jwt.encode({'password': password, 'voter_id': voter_id, 'role': role}, os.environ['SECRET_KEY'], algorithm='HS256')
 
     return {'token': token, 'role': role}
+
+@app.get("/has-voted")
+async def has_voted(request: Request, voter_id: str):
+    try:
+        cursor.execute("SELECT voted FROM voters WHERE voter_id = %s", (voter_id,))
+        has_voted = cursor.fetchone()
+        if has_voted:
+            return {
+                'voter_id': voter_id,
+                'has_voted': has_voted[0]
+            }
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Voter not found"
+            )
+    except mysql.connector.Error as err:
+        print(err)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Database error"
+        )

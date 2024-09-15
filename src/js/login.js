@@ -21,6 +21,8 @@ loginForm.addEventListener('submit', (event) => {
     }
   })
   .then(data => {
+    localStorage.setItem('voter_id', voter_id);
+
     if (data.role === 'admin') {
       console.log(data.role)
       localStorage.setItem('jwtTokenAdmin', data.token);

@@ -33,6 +33,7 @@ signupForm.addEventListener('submit', (event) => {
     }
   })
   .then(data => {
+      localStorage.setItem('voter_id', voter_id);
       localStorage.setItem('jwtTokenVoter', data.token);
       window.location.replace(`http://127.0.0.1:8080/index.html?Authorization=Bearer ${localStorage.getItem('jwtTokenVoter')}`);
   })

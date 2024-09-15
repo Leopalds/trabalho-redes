@@ -74,7 +74,25 @@ window.App = {
     })
   },
 
-  vote: function() {    
+  vote: async function() {
+    const voter_id = localStorage.getItem('voter_id');
+    const token = localStorage.getItem('jwtTokenVoter');
+
+    const headers = {
+      'method': "GET",
+      'Authorization': `Bearer ${token}`,
+    };
+
+    const response = await fetch(`http://127.0.0.1:8000/has-voted?voter_id=${voter_id}`, { headers })
+    
+    if (!response.ok) throw new Error('Failed to check if user has voted');
+    const data = await response.json();
+
+    if(data.has_voted){
+      alert('You have already voted');
+      return;
+    }
+    
     var candidateID = $("input[name='candidate']:checked").val();
     if (!candidateID) {
       $("#msg").html("<p>Please vote for a candidate.</p>")
