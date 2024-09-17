@@ -99,9 +99,8 @@ window.App = {
     }
     VotingContract.deployed().then(function(instance){
       instance.vote(parseInt(candidateID)).then(function(result){
-        $("#voteButton").attr("disabled", true);
-        alert("Votou com sucesso!");
-         window.location.reload(1);
+      fetch(`http://127.0.0.1:8000/voted?voter_id=${voter_id}`, { headers })
+         window.location.href = "/voted";
       })
     }).catch(function(err){ 
       console.error("ERROR! " + err.message)

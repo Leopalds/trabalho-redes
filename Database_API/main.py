@@ -137,3 +137,19 @@ async def has_voted(request: Request, voter_id: str):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Database error"
         )
+        
+@app.get("/voted")
+async def has_voted(request: Request, voter_id: str):
+    try:
+        cursor.execute("UPDATE voters SET voted = 1 WHERE voter_id = %s", (voter_id,))
+        cnx.commit()
+        return {
+            'voter_id': voter_id,
+            'has_voted': 1
+        }        
+    except mysql.connector.Error as err:
+        print(err)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Database error"
+        )
