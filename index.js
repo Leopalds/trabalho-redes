@@ -35,6 +35,10 @@ app.get('/sign-up', (req, res) => {
   res.sendFile(path.join(__dirname, 'src/html/signup.html'));
 });
 
+app.get('/voted', (req, res) => {
+  res.sendFile(path.join(__dirname, 'src/html/voted.html'));
+});
+
 app.get('/js/sign-up.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'src/js/sign-up.js'))
 });

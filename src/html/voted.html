@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voto Computado</title>
+
+    <link rel="stylesheet" type="text/css" href="../css/index.css">
+    
+    <style>
+        h2 {
+            color: #731417;
+            font-weight: 900;
+            font-size: 28px;
+        }
+
+        .link-alternativo{
+            color: #731417;
+            font-weight: 900;
+            margin-top: 8px;
+            font-size: 18px;
+            text-decoration: underline;
+            cursor: pointer;
+            display: block;
+        }
+        .trigger-block{
+            color: #731417;
+            font-weight: 400;
+            text-decoration: underline;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        #vote-box{
+            display: none;
+        }
+        .container{
+            min-height: 557px;
+        }
+
+        .text{
+            font-size: 20px;
+            font-weight: 400;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="head" class="text-center">
+      <h2 align="center">Voto computado com Sucesso!</h2> 
+      <br/> 
+    </div>
+    <div class="container"> 
+      <br/>
+      <div id="vote">
+        <p class="text">Você pode conferir se seu voto foi contabilizado pelo QR code abaixo. </p>
+        <div class="trigger-block">
+            <span class="trigger">Clique para exibir</span>
+        </div>
+        <div id="vote-box">
+            <img width="400px" src="https://i.pinimg.com/736x/a8/69/40/a86940a4ed8a69539b341f3c414c47b3.jpg" alt="">
+    
+            <a class="link-alternativo" href="#">LINK PARA CONFERIR O VOTO</a>
+        </div>
+      </div>
+    </div>
+  
+    <div id="account">
+          <p id="accountAddress" class="text-center"></p>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".trigger").click(function(){
+                $("#vote-box").toggle();
+            });
+        });
+    </script>
+  </body>
+</html>
