@@ -7,14 +7,15 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 60vh;
-    background: url('../assets/eth5.jpg') no-repeat center center fixed;
+    background: #bebebe;
     background-size: cover;
+    height: 100dvh;
   }
   
   .container {
     width: 750px;
     max-width: 900px;
-    background-color: rgba(0, 0, 0, 0.650);
+    background-color: #7c7c7c;
     padding: 40px;
     padding-bottom: 2%;
     padding-top: 2%;
@@ -66,7 +67,7 @@ body {
   #voteButton {
     width: 40%;
     padding: 12px;
-    background-color: #198a7b;
+    background-color: #731417;
     color: #ffffff;
     border: none;
     border-radius: 5px;
@@ -76,7 +77,7 @@ body {
   }
   
   #voteButton:hover {
-    background-color: #44afa1;
+    background-color: #af1e23;
   }
   
   #voteButton:focus {

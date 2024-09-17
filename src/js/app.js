@@ -15,7 +15,7 @@ window.App = {
 
     // Load account data
     App.account = window.ethereum.selectedAddress;
-    $("#accountAddress").html("Your Account: " + window.ethereum.selectedAddress);
+    $("#accountAddress").html("Sua Conta: " + window.ethereum.selectedAddress);
     VotingContract.deployed().then(function(instance){
      instance.getCountCandidates().then(function(countCandidates){
 
@@ -41,7 +41,7 @@ window.App = {
                 var startDate = new Date(result[0]*1000);
                 var endDate = new Date(result[1]*1000);
 
-                $("#dates").text( startDate.toDateString(("#DD#/#MM#/#YYYY#")) + " - " + endDate.toDateString("#DD#/#MM#/#YYYY#"));
+                $("#dates").text( startDate.toLocaleString('pt-br', ("#DD#/#MM#/#YYYY#")) + " - " + endDate.toLocaleString('pt-br',"#DD#/#MM#/#YYYY#"));
               }).catch(function(err){ 
                 console.error("ERROR! " + err.message)
               });           
