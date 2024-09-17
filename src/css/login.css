@@ -11,6 +11,13 @@ body {
     background-size: cover;
   }
   
+  .little-text{
+    display: block;
+    margin-top: 8px;
+    font-size: 12px;
+    color: #ffffff;
+  }
+
   .container {
     width: 450px;
     max-width: 500px;
