@@ -5,8 +5,8 @@ signupForm.addEventListener('submit', (event) => {
 
   const voter_id = document.getElementById('voter-id').value;
 
-  if (!jsbrasil.validateBr.titulo(voter_id)) {
-    alert('Invalid voter ID');
+  if (!jsbrasil.validateBr.cpf(voter_id)) {
+    alert('CPF inválido');
     return
   }
     
