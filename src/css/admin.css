@@ -7,15 +7,16 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 70vh;
-  background: url('../assets/eth5.jpg') no-repeat center center fixed;
+  background: #bebebe;
   background-size: cover;
+  height: 100dvh;
 }
 
 .container {
   width: 1100px;
   height: 150px;
   max-width: 1100px;
-  background-color: rgba(0, 0, 0, 0.65);
+  background-color: #7c7c7c;
   padding: 40px;
   border-radius: 5px;
   box-shadow: 0px 3px 10px rgba(255, 255, 255, 0.1);
@@ -66,7 +67,7 @@ input[type="date"] {
 input[type="submit"] {
   width: 30%;
   padding: 12px;
-  background-color: #198a7b;
+  background-color: #731417;
   color: #ffffff;
   border: none;
   border-radius: 5px;
@@ -76,7 +77,7 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-  background-color: #44afa1;
+  background-color: #af1e23;
 }
 
 input[type="submit"]:focus {
