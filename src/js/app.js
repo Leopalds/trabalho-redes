@@ -32,7 +32,7 @@ window.App = {
                   var endDate =  Date.parse(document.getElementById("endDate").value)/1000;
            
                   instance.setDates(startDate,endDate).then(function(rslt){ 
-                    console.log("tarihler verildi");
+                    console.log("Data adicionada com sucesso!");
                   });
 
               });     
@@ -52,8 +52,7 @@ window.App = {
               var id = data[0];
               var name = data[1];
               var party = data[2];
-              var voteCount = data[3];
-              var viewCandidates = `<tr><td> <input class="form-check-input" type="radio" name="candidate" value="${id}" id=${id}>` + name + "</td><td>" + party + "</td><td>" + voteCount + "</td></tr>"
+              var viewCandidates = `<tr><td> <input class="form-check-input" type="radio" name="candidate" value="${id}" id=${id}>` + name + "</td><td>" + party + "</td>" + "</tr>"
               $("#boxCandidate").append(viewCandidates)
             })
         }
@@ -89,19 +88,19 @@ window.App = {
     const data = await response.json();
 
     if(data.has_voted){
-      alert('You have already voted');
+      alert('Você já votou!');
       return;
     }
     
     var candidateID = $("input[name='candidate']:checked").val();
     if (!candidateID) {
-      $("#msg").html("<p>Please vote for a candidate.</p>")
+      $("#msg").html("<p>Por favor selecione um candidato</p>")
       return
     }
     VotingContract.deployed().then(function(instance){
       instance.vote(parseInt(candidateID)).then(function(result){
         $("#voteButton").attr("disabled", true);
-        $("#msg").html("<p>Voted</p>");
+        alert("Votou com sucesso!");
          window.location.reload(1);
       })
     }).catch(function(err){ 
