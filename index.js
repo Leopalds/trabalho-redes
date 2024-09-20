@@ -101,6 +101,10 @@ app.get("/js/app.js", (req, res) => {
   res.sendFile(path.join(__dirname, "src/js/app.js"));
 });
 
+app.get("/js/results.js", (req, res) => {
+  res.sendFile(path.join(__dirname, "src/js/results.js"));
+});
+
 app.get("/admin.html", authorizeAdmin, (req, res) => {
   res.sendFile(path.join(__dirname, "src/html/admin.html"));
 });
@@ -115,6 +119,10 @@ app.get("/dist/login.bundle.js", (req, res) => {
 
 app.get("/dist/app.bundle.js", (req, res) => {
   res.sendFile(path.join(__dirname, "src/dist/app.bundle.js"));
+});
+
+app.get("/dist/results.bundle.js", (req, res) => {
+  res.sendFile(path.join(__dirname, "src/dist/results.bundle.js"));
 });
 
 // Serve the favicon.ico file
