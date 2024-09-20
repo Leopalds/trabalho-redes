@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,7 +15,7 @@
             font-size: 28px;
         }
 
-        .link-alternativo{
+        .link-alternativo {
             color: #731417;
             font-weight: 900;
             margin-top: 8px;
@@ -24,8 +23,10 @@
             text-decoration: underline;
             cursor: pointer;
             display: block;
+            text-align: center;
         }
-        .trigger-block{
+
+        .trigger-block {
             color: #731417;
             font-weight: 400;
             text-decoration: underline;
@@ -35,16 +36,29 @@
             margin-bottom: 20px;
             text-align: center;
         }
-        #vote-box{
+
+        #vote-box {
             display: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centraliza o conteúdo dentro do bloco */
+            text-align: center;
         }
-        .container{
+
+        .container {
             min-height: 557px;
         }
 
-        .text{
+        .text {
             font-size: 20px;
             font-weight: 400;
+            text-align: center;
+        }
+
+        /* Centraliza o QR code */
+        #qrCode {
+            display: flex;
+            justify-content: center;
         }
     </style>
   </head>
@@ -56,29 +70,60 @@
     <div class="container"> 
       <br/>
       <div id="vote">
-        <p class="text">Você pode conferir se seu voto foi contabilizado pelo QR code abaixo. </p>
+        <p class="text">Você pode conferir se seu voto foi contabilizado pelo QR code abaixo.</p>
         <div class="trigger-block">
             <span class="trigger">Clique para exibir</span>
         </div>
         <div id="vote-box">
-            <img width="400px" src="https://i.pinimg.com/736x/a8/69/40/a86940a4ed8a69539b341f3c414c47b3.jpg" alt="">
-    
-            <a class="link-alternativo" href="#">LINK PARA CONFERIR O VOTO</a>
+            <!-- QR Code será inserido aqui -->
+            <div id="qrCode"></div>
+        
+            <!-- Link alternativo para verificar a transação -->
+            <a id="txLink" class="link-alternativo" href="#" target="_blank">LINK PARA CONFERIR O VOTO</a>
+            
+            <!-- Link para acompanhar os resultados gerais da votação -->
+            <a class="link-alternativo" href="/results" target="_blank">RESULTADOS DA VOTAÇÃO</a>
         </div>
+        
       </div>
     </div>
   
     <div id="account">
-          <p id="accountAddress" class="text-center"></p>
+      <p id="accountAddress" class="text-center"></p>
     </div>
+
+    <!-- Importações de bibliotecas necessárias -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
     <script>
         $(document).ready(function(){
+            // Função para alternar a exibição do bloco de voto
             $(".trigger").click(function(){
                 $("#vote-box").toggle();
             });
+
+            // Extrai o parâmetro "id" da URL (hash da transação)
+            const urlParams = new URLSearchParams(window.location.search);
+            const transactionHash = urlParams.get('id');
+
+            if (transactionHash) {
+                // Gera o QR code com o hash da transação
+                const qrCode = new QRCode(document.getElementById("qrCode"), {
+                    text: `https://etherscan.io/tx/${transactionHash}`,
+                    width: 200, // Largura do QR code
+                    height: 200 // Altura do QR code
+                });
+
+                // Atualiza o link para conferir a transação (pode ser em um blockchain explorer)
+                const txLink = document.getElementById("txLink");
+                txLink.href = `https://etherscan.io/tx/${transactionHash}`; // Exemplo com Etherscan
+            }
         });
     </script>
+
+    <!-- Seu script de votos -->
+    <script src="../js/voted.js" type="module"></script>
   </body>
 </html>

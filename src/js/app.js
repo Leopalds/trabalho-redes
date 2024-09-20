@@ -18,33 +18,44 @@ window.App = {
     // Load account data
     App.account = window.ethereum.selectedAddress;
     $("#accountAddress").html("Sua Conta: " + window.ethereum.selectedAddress);
+    
     VotingContract.deployed()
       .then(function (instance) {
-        instance.getCountCandidates().then(function (countCandidates) {
-          $(document).ready(function () {
-            $("#addCandidate").click(function () {
-              var nameCandidate = $("#name").val();
-              var partyCandidate = $("#party").val();
-              instance
-                .addCandidate(nameCandidate, partyCandidate)
-                .then(function (result) {});
-              console.log(countCandidates);
-            });
-            $("#addDate").click(function () {
-              var startDate =
-                Date.parse(document.getElementById("startDate").value) / 1000;
+        // Verifica as datas de início e término
+        instance.getDates().then(function (result) {
+          var startDate = new Date(result[0] * 1000);
+          var endDate = new Date(result[1] * 1000); // Data de término
 
-              var endDate =
-                Date.parse(document.getElementById("endDate").value) / 1000;
+          // Verifica se a data de término já passou
+          if (endDate < new Date() && startDate!==endDate) {
+            // Redireciona para a página de resultados
+            window.location.href = "/results";
+            return; // Interrompe a execução
+          }
 
-              instance.setDates(startDate, endDate).then(function (rslt) {
-                console.log("Data adicionada com sucesso!");
+          instance.getCountCandidates().then(function (countCandidates) {
+            $(document).ready(function () {
+              $("#addCandidate").click(function () {
+                var nameCandidate = $("#name").val();
+                var partyCandidate = $("#party").val();
+                instance
+                  .addCandidate(nameCandidate, partyCandidate)
+                  .then(function (result) {});
+                console.log(countCandidates);
               });
-            });
+              $("#addDate").click(function () {
+                var startDate =
+                  Date.parse(document.getElementById("startDate").value) / 1000;
 
-            instance
-              .getDates()
-              .then(function (result) {
+                var endDate =
+                  Date.parse(document.getElementById("endDate").value) / 1000;
+
+                instance.setDates(startDate, endDate).then(function (rslt) {
+                  console.log("Data adicionada com sucesso!");
+                });
+              });
+
+              instance.getDates().then(function (result) {
                 var startDate = new Date(result[0] * 1000);
                 var endDate = new Date(result[1] * 1000);
 
@@ -53,36 +64,39 @@ window.App = {
                     " - " +
                     endDate.toLocaleString("pt-br", "#DD#/#MM#/#YYYY#")
                 );
-              })
-              .catch(function (err) {
+              }).catch(function (err) {
                 console.error("ERROR! " + err.message);
               });
+            });
+
+            for (var i = 0; i < countCandidates; i++) {
+              instance.getCandidate(i + 1).then(function (data) {
+                var id = data[0];
+                var name = data[1];
+                var party = data[2];
+                var viewCandidates =
+                  `<tr><td> <input class="form-check-input" type="radio" name="candidate" value="${id}" id=${id}>` +
+                  name +
+                  "</td><td>" +
+                  party +
+                  "</td>" +
+                  "</tr>";
+                $("#boxCandidate").append(viewCandidates);
+              });
+            }
+
+            window.countCandidates = countCandidates;
           });
 
-          for (var i = 0; i < countCandidates; i++) {
-            instance.getCandidate(i + 1).then(function (data) {
-              var id = data[0];
-              var name = data[1];
-              var party = data[2];
-              var viewCandidates =
-                `<tr><td> <input class="form-check-input" type="radio" name="candidate" value="${id}" id=${id}>` +
-                name +
-                "</td><td>" +
-                party +
-                "</td>" +
-                "</tr>";
-              $("#boxCandidate").append(viewCandidates);
-            });
-          }
-
-          window.countCandidates = countCandidates;
-        });
-
-        instance.checkVote().then(function (voted) {
-          console.log(voted);
-          if (!voted) {
-            $("#voteButton").attr("disabled", false);
-          }
+          instance.checkVote().then(function (voted) {
+            console.log(voted);
+            if (!voted) {
+              $("#voteButton").attr("disabled", false);
+            }
+          });
+        })
+        .catch(function (err) {
+          console.error("ERROR! " + err.message);
         });
       })
       .catch(function (err) {
@@ -120,10 +134,10 @@ window.App = {
     VotingContract.deployed()
       .then(function (instance) {
         instance.vote(parseInt(candidateID)).then(function (result) {
-          fetch(`http://127.0.0.1:8000/voted?voter_id=${voter_id}`, {
-            headers,
-          });
-          window.location.href = "/voted";
+          // fetch(`http://127.0.0.1:8000/voted?voter_id=${voter_id}`, {
+          //   headers,
+          // });
+          window.location.href = `/voted?id=${result.tx}`;
         });
       })
       .catch(function (err) {
